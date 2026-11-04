@@ -1,0 +1,40 @@
+.jellyfin-remote-panel-button {
+    padding: 0 2px;
+    border-radius: 4px;
+}
+.jellyfin-remote-panel-button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+.jellyfin-remote-label {
+    padding-left: 4px;
+}
+
+.jellyfin-remote-popup {
+    min-width: 320px;
+    spacing: 2px;
+}
+.jellyfin-remote-title {
+    font-weight: bold;
+    font-size: 1.05em;
+}
+.jellyfin-remote-row {
+    spacing: 8px;
+}
+.jellyfin-remote-controls {
+    spacing: 6px;
+}
+.jellyfin-remote-button {
+    padding: 6px;
+    border-radius: 999px;
+}
+.jellyfin-remote-button:hover {
+    background-color: rgba(128, 128, 128, 0.25);
+}
+.jellyfin-remote-play {
+    padding: 8px;
+    color: #ffffff;
+    background-color: #00a4dc;
+}
+.jellyfin-remote-play:hover {
+    background-color: #1eb8f0;
+}

@@ -1,0 +1,125 @@
+{
+    "layout": {
+        "type": "layout",
+        "pages": ["page-server", "page-panel"],
+        "page-server": {
+            "type": "page",
+            "title": "Server",
+            "sections": ["section-server", "section-login", "section-key"]
+        },
+        "page-panel": {
+            "type": "page",
+            "title": "Panel",
+            "sections": ["section-panel", "section-behaviour"]
+        },
+        "section-server": {
+            "type": "section",
+            "title": "Server",
+            "keys": ["server-url"]
+        },
+        "section-login": {
+            "type": "section",
+            "title": "Log in with your account",
+            "keys": ["username", "password", "login"]
+        },
+        "section-key": {
+            "type": "section",
+            "title": "…or use an API key instead",
+            "keys": ["api-key"]
+        },
+        "section-panel": {
+            "type": "section",
+            "title": "What to show in the panel",
+            "keys": ["show-title", "title-max-chars", "show-time", "show-prev-next", "hide-when-idle"]
+        },
+        "section-behaviour": {
+            "type": "section",
+            "title": "Behaviour",
+            "keys": ["poll-interval", "seek-step"]
+        }
+    },
+
+    "server-url": {
+        "type": "entry",
+        "default": "",
+        "description": "Server URL",
+        "tooltip": "For example http://192.168.1.10:8096 or https://jellyfin.example.com"
+    },
+    "username": {
+        "type": "entry",
+        "default": "",
+        "description": "Username"
+    },
+    "password": {
+        "type": "entry",
+        "default": "",
+        "description": "Password",
+        "tooltip": "Only used to log in. It is cleared after a successful login and just the access token is kept."
+    },
+    "login": {
+        "type": "button",
+        "description": "Log in",
+        "callback": "onLoginClicked"
+    },
+    "api-key": {
+        "type": "entry",
+        "default": "",
+        "description": "API key",
+        "tooltip": "Jellyfin Dashboard → API Keys. If set, it is used instead of the login above."
+    },
+
+    "show-title": {
+        "type": "switch",
+        "default": true,
+        "description": "Show the title of what's playing"
+    },
+    "title-max-chars": {
+        "type": "spinbutton",
+        "default": 28,
+        "min": 5,
+        "max": 120,
+        "step": 1,
+        "units": "characters",
+        "description": "Maximum title length",
+        "dependency": "show-title"
+    },
+    "show-time": {
+        "type": "switch",
+        "default": true,
+        "description": "Show the playback position"
+    },
+    "show-prev-next": {
+        "type": "switch",
+        "default": true,
+        "description": "Show previous / next buttons"
+    },
+    "hide-when-idle": {
+        "type": "switch",
+        "default": true,
+        "description": "Show only an icon when nothing is playing"
+    },
+
+    "poll-interval": {
+        "type": "spinbutton",
+        "default": 2,
+        "min": 1,
+        "max": 30,
+        "step": 1,
+        "units": "seconds",
+        "description": "Refresh every"
+    },
+    "seek-step": {
+        "type": "spinbutton",
+        "default": 10,
+        "min": 5,
+        "max": 120,
+        "step": 5,
+        "units": "seconds",
+        "description": "Skip back / forward by"
+    },
+
+    "token": { "type": "generic", "default": "" },
+    "user-id": { "type": "generic", "default": "" },
+    "device-id": { "type": "generic", "default": "" },
+    "pinned-session": { "type": "generic", "default": "" }
+}

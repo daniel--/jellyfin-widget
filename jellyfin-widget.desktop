@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Jellyfin Widget
+Comment=Tiny always-on-top Jellyfin remote control
+Exec=/path/to/jellyfin-widget/jellyfin_widget.py
+Icon=multimedia-player
+Categories=AudioVideo;Player;
+Terminal=false

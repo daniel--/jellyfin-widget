@@ -1,0 +1,8 @@
+{
+    "uuid": "jellyfin-remote@jellyfin-widget",
+    "name": "Jellyfin Remote",
+    "description": "Control a Jellyfin client from the panel: play/pause, skip, seek, volume",
+    "icon": "xsi-tv-symbolic",
+    "version": "0.1.0",
+    "max-instances": -1
+}
