@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 Daniel Lister
+//
 // Jellyfin Remote: a Cinnamon panel applet that remote-controls a Jellyfin client
 // session (whatever is playing, or one picked from the popup) via the server API.
 
