@@ -25,9 +25,10 @@ It's stored in `~/.config/jellyfin-widget/config.json` (mode 600).
 | Seek | Click on the progress bar |
 | Volume | Scroll anywhere on the widget, or use the − / + / mute buttons |
 | Pick which client to control | Right-click → choose a session (default: Auto, which follows whatever is playing) |
+| Shrink to just a play / pause button | Right-click → *Play / pause only* (hover the button to see what's playing) |
 | Background opacity, settings, quit | Right-click menu (or the × to quit) |
 
-The window position, opacity and chosen session are remembered.
+The window position, opacity, layout and chosen session are remembered.
 
 ## Autostart
 
@@ -45,7 +46,8 @@ On Wayland, "always on top" and dragging depend on the compositor; it works best
 Prefer it in the panel instead of floating? `cinnamon-applet/jellyfin-remote@jellyfin-widget` is a
 native Cinnamon applet with the same controls. It's separate from the Python widget: use either one, or both.
 
-The panel shows ⏮ ⏯ ⏭ plus the title and position. When nothing is playing it shrinks to a single icon.
+The panel shows ⏮ ⏯ ⏭ plus the title and position, or only ⏯ if you turn on *Only show the play / pause button*
+in *Configure… → Panel*. When nothing is playing it shrinks to a single icon.
 
 | Action | How |
 | --- | --- |

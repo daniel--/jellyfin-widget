@@ -78,6 +78,7 @@ def load_config():
         cfg = {}
     cfg.setdefault("device_id", uuid.uuid4().hex)
     cfg.setdefault("opacity", DEFAULT_OPACITY)
+    cfg.setdefault("play_pause_only", False)
     return cfg
 
 
@@ -359,7 +360,13 @@ class Widget(Gtk.Window):
             Gdk.Cursor.new_from_name(w.get_display(), "grab")))
         panel.pack_start(handle, False, False, 0)
 
-        body = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=3)
+        # Compact mode ("play / pause only"): just this button next to the handle.
+        self.mini_play_btn = icon_button("media-playback-start-symbolic", "Play / Pause",
+                                         lambda: self._play_pause(), Gtk.IconSize.LARGE_TOOLBAR,
+                                         "jf-play")
+        panel.pack_start(self.mini_play_btn, False, False, 0)
+
+        self.body = body = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=3)
         panel.pack_start(body, True, True, 0)
 
         # Row 1: title + close
@@ -420,7 +427,15 @@ class Widget(Gtk.Window):
         ctl.pack_end(self.mute_btn, False, False, 0)
         body.pack_start(ctl, False, False, 0)
 
-        self.set_size_request(340, -1)
+        panel.show_all()
+        self._apply_layout()
+
+    def _apply_layout(self):
+        compact = self.cfg["play_pause_only"]
+        self.body.set_visible(not compact)
+        self.mini_play_btn.set_visible(compact)
+        self.set_size_request(-1 if compact else 340, -1)
+        self.resize(1, 1)  # shrink to the new natural size
 
     def _draw_grip(self, widget, cr):
         w, h = widget.get_allocated_width(), widget.get_allocated_height()
@@ -504,6 +519,11 @@ class Widget(Gtk.Window):
         opacity.set_submenu(sub)
         menu.append(opacity)
 
+        compact = Gtk.CheckMenuItem(label="Play / pause only")
+        compact.set_active(self.cfg["play_pause_only"])
+        compact.connect("toggled", lambda i: self._set_play_pause_only(i.get_active()))
+        menu.append(compact)
+
         settings = Gtk.MenuItem(label="Settings…")
         settings.connect("activate", lambda *_: self._open_settings())
         menu.append(settings)
@@ -520,6 +540,11 @@ class Widget(Gtk.Window):
         self.cfg["pinned_session"] = session_id
         save_config(self.cfg)
         self._poll()
+
+    def _set_play_pause_only(self, value):
+        self.cfg["play_pause_only"] = value
+        save_config(self.cfg)
+        self._apply_layout()
 
     def _set_opacity(self, value):
         self.cfg["opacity"] = value
@@ -648,6 +673,12 @@ class Widget(Gtk.Window):
         self.paused = True
         self._set_play_icon(False)
         self._tick_progress()
+        self._update_mini_tooltip()
+
+    def _update_mini_tooltip(self):
+        # In compact mode the title is only visible as the play button's tooltip.
+        lines = [self.title.get_text(), self.subtitle.get_text(), "Click to play / pause"]
+        self.mini_play_btn.set_tooltip_text("\n".join(x for x in lines if x))
 
     def _update_ui(self):
         s = self.session
@@ -692,10 +723,12 @@ class Widget(Gtk.Window):
         self.mute_btn.set_tooltip_text(f"{vol_txt}{' (muted)' if muted else ''} · click to mute, "
                                        "scroll widget to change")
         self._tick_progress()
+        self._update_mini_tooltip()
 
     def _set_play_icon(self, playing):
         icon = "media-playback-pause-symbolic" if playing else "media-playback-start-symbolic"
-        self.play_btn.get_child().set_from_icon_name(icon, Gtk.IconSize.LARGE_TOOLBAR)
+        for btn in (self.play_btn, self.mini_play_btn):
+            btn.get_child().set_from_icon_name(icon, Gtk.IconSize.LARGE_TOOLBAR)
 
     def _current_ticks(self):
         ticks = self.pos_ticks
@@ -764,7 +797,7 @@ def _error_text(e):
 
 def main():
     win = Widget()
-    win.show_all()
+    win.show()  # children are shown by _build_ui / _apply_layout
     GLib.unix_signal_add(GLib.PRIORITY_DEFAULT, signal.SIGINT, Gtk.main_quit)
     Gtk.main()
 

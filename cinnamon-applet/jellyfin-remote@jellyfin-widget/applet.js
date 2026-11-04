@@ -233,6 +233,7 @@ class JellyfinRemoteApplet extends Applet.Applet {
         this.settings.bind("user-id", "userId");
         this.settings.bind("device-id", "deviceId");
         this.settings.bind("pinned-session", "pinnedSession");
+        this.settings.bind("play-pause-only", "playPauseOnly", onPanel);
         this.settings.bind("show-title", "showTitle", onPanel);
         this.settings.bind("title-max-chars", "titleMaxChars", onPanel);
         this.settings.bind("show-time", "showTime", onPanel);
@@ -680,8 +681,9 @@ class JellyfinRemoteApplet extends Applet.Applet {
         let vertical = this._isVertical();
         this._icon.visible = !showControls;
         this._playBtn.visible = showControls;
-        this._prevBtn.visible = this._nextBtn.visible = showControls && this.showPrevNext && !vertical;
-        this._label.visible = showControls && !vertical && (this.showTitle || this.showTime);
+        let extras = showControls && !vertical && !this.playPauseOnly;
+        this._prevBtn.visible = this._nextBtn.visible = extras && this.showPrevNext;
+        this._label.visible = extras && (this.showTitle || this.showTime);
         this.set_applet_tooltip(device ? `${title}\n${device}` : `Jellyfin: ${title}`);
 
         this._updateProgress();

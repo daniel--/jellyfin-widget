@@ -30,7 +30,7 @@
         "section-panel": {
             "type": "section",
             "title": "What to show in the panel",
-            "keys": ["show-title", "title-max-chars", "show-time", "show-prev-next", "hide-when-idle"]
+            "keys": ["play-pause-only", "show-title", "title-max-chars", "show-time", "show-prev-next", "hide-when-idle"]
         },
         "section-behaviour": {
             "type": "section",
@@ -68,10 +68,17 @@
         "tooltip": "Jellyfin Dashboard → API Keys. If set, it is used instead of the login above."
     },
 
+    "play-pause-only": {
+        "type": "switch",
+        "default": false,
+        "description": "Only show the play / pause button",
+        "tooltip": "Hides the title, position and previous / next buttons. Everything else is still in the popup."
+    },
     "show-title": {
         "type": "switch",
         "default": true,
-        "description": "Show the title of what's playing"
+        "description": "Show the title of what's playing",
+        "dependency": "!play-pause-only"
     },
     "title-max-chars": {
         "type": "spinbutton",
@@ -86,12 +93,14 @@
     "show-time": {
         "type": "switch",
         "default": true,
-        "description": "Show the playback position"
+        "description": "Show the playback position",
+        "dependency": "!play-pause-only"
     },
     "show-prev-next": {
         "type": "switch",
         "default": true,
-        "description": "Show previous / next buttons"
+        "description": "Show previous / next buttons",
+        "dependency": "!play-pause-only"
     },
     "hide-when-idle": {
         "type": "switch",
